@@ -1,0 +1,32 @@
+/**
+ * Return an array of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* nextGreaterElement(int* findNums, int findNumsSize, int* nums, int numsSize, int* returnSize) {
+    
+    /*find the max num of the nums array to create the numsHash*/
+    int max = 0;
+    for(int i = 0; i < numsSize; ++i)
+        if(max < nums[i])
+            max = nums[i];
+    int *numsHash = (int *)malloc(sizeof(int) * (max+1));
+    
+    /* create the numsHash array*/
+    for(int i = 0; i < numsSize; ++i){
+        numsHash[nums[i]] = -1;
+        for(int j = i+1; j < numsSize; ++j){
+            if(nums[i] < nums[j]){
+                numsHash[nums[i]] = nums[j];
+                break;
+            }   
+        }
+    }
+    
+    int *res = (int *)malloc(sizeof(int) * findNumsSize);
+    for(int i = 0; i < findNumsSize; ++i){
+        res[i] = numsHash[findNums[i]];
+    }
+    
+    *returnSize = findNumsSize;
+    return res;
+}
